@@ -121,9 +121,11 @@ const startServer = async () => {
     // Connect to MongoDB first
     await connectDB();
 
-    const PORT = process.env.PORT || 3001;
-    server.listen(PORT, () => {
-      logger.info(`Server is running on port ${PORT}`);
+    const PORT = Number(process.env.PORT) || 3001;
+    const HOST = "0.0.0.0";
+
+    server.listen(PORT, HOST, () => {
+      logger.info(`Server is running on ${HOST}:${PORT}`);
       printRoutes();
       logger.info(
         `Inngest endpoint available at http://localhost:${PORT}/api/inngest`,

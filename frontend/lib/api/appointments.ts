@@ -124,5 +124,10 @@ export const endAppointmentSession = (
     "Failed to end session",
   );
 
-export const getSocketUrl = () =>
-  process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:3001";
+export const getSocketUrl = () => {
+  if (process.env.NEXT_PUBLIC_BACKEND_API_URL) {
+    return process.env.NEXT_PUBLIC_BACKEND_API_URL;
+  }
+
+  return "http://localhost:3001";
+};

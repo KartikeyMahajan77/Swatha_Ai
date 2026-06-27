@@ -1,15 +1,21 @@
 import mongoose from "mongoose";
 import { logger } from "./logger";
 
-const MONGODB_URI =
-  process.env.MONGODB_URI || "mongodb://localhost:27017/ai-therapist";
-
 export const connectDB = async () => {
+  const MONGODB_URI = process.env.MONGODB_URI;
+
+  if (!MONGODB_URI) {
+    const message =
+      "MONGODB_URI is not set. Add your MongoDB Atlas connection string in Render environment variables.";
+    logger.error(message);
+    throw new Error(message);
+  }
+
   try {
     await mongoose.connect(MONGODB_URI);
-    logger.info("Connected to MongoDB Atlas");
+    logger.info("Connected to MongoDB");
   } catch (error) {
     logger.error("MongoDB connection error:", error);
-    process.exit(1);
+    throw error;
   }
 };

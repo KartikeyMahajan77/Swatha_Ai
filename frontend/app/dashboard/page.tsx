@@ -375,7 +375,10 @@ export default function Dashboard() {
       const sessions = await getAllChatSessions();
 
       // Fetch today's activities
-      const activitiesResponse = await fetch("/api/activities/today");
+      const token = localStorage.getItem("token");
+      const activitiesResponse = await fetch("/api/activities/today", {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
       if (!activitiesResponse.ok) throw new Error("Failed to fetch activities");
       const activities = await activitiesResponse.json();
 

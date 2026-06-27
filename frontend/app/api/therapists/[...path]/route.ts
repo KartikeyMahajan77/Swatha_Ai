@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-const API_URL =
-  process.env.BACKEND_API_URL ||
-  "https://ai-therapist-agent-backend.onrender.com";
+import { parseBackendResponse, BACKEND_API_URL } from "@/lib/server/backend";
 
 async function proxyRequest(
   req: NextRequest,
@@ -10,7 +7,7 @@ async function proxyRequest(
   method: "GET" | "POST",
 ) {
   const body = method === "GET" ? undefined : await req.text();
-  const res = await fetch(`${API_URL}/therapists/${path.join("/")}`, {
+  const res = await fetch(`${BACKEND_API_URL}/therapists/${path.join("/")}`, {
     method,
     headers: {
       "Content-Type": "application/json",
@@ -19,7 +16,7 @@ async function proxyRequest(
     body,
   });
 
-  const data = await res.json();
+  const data = await parseBackendResponse(res);
   return NextResponse.json(data, { status: res.status });
 }
 

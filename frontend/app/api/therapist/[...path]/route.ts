@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-const API_URL =
-  process.env.BACKEND_API_URL ||
-  "http://localhost:3001";
+import { parseBackendResponse, BACKEND_API_URL } from "@/lib/server/backend";
 
 async function proxyRequest(
   req: NextRequest,
@@ -10,7 +7,7 @@ async function proxyRequest(
   method: "GET" | "POST" | "PATCH",
 ) {
   const body = method === "GET" ? undefined : await req.text();
-  const res = await fetch(`${API_URL}/therapist/${path.join("/")}`, {
+  const res = await fetch(`${BACKEND_API_URL}/therapist/${path.join("/")}`, {
     method,
     headers: {
       "Content-Type": "application/json",
@@ -19,10 +16,7 @@ async function proxyRequest(
     body,
   });
 
-  const contentType = res.headers.get("content-type") || "";
-  const data = contentType.includes("application/json")
-    ? await res.json()
-    : { message: await res.text() };
+  const data = await parseBackendResponse(res);
   return NextResponse.json(data, { status: res.status });
 }
 
