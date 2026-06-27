@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export const BACKEND_API_URL =
-  process.env.BACKEND_API_URL || "http://localhost:3001";
+  process.env.BACKEND_API_URL ||
+  process.env.NEXT_PUBLIC_BACKEND_API_URL ||
+  "http://localhost:3001";
 
 export function getAuthHeader(req: NextRequest): string {
   return req.headers.get("authorization") || req.headers.get("Authorization") || "";
