@@ -7,6 +7,8 @@ export interface IActivity extends Document {
   description?: string;
   duration?: number;
   timestamp: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const activitySchema = new Schema<IActivity>(

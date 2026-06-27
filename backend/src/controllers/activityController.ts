@@ -102,8 +102,8 @@ export const getTodaysActivities = async (
       completed: true,
       moodScore: null,
       moodNote: null,
-      createdAt: (activity as IActivity & { createdAt: Date }).createdAt,
-      updatedAt: (activity as IActivity & { updatedAt: Date }).updatedAt,
+      createdAt: activity.createdAt,
+      updatedAt: activity.updatedAt,
     }));
 
     const formattedMoods = moods.map((mood) => ({
