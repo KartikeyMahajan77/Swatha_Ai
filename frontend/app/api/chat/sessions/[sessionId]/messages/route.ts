@@ -7,17 +7,17 @@ const BACKEND_API_URL =
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { sessionId: string } }
+  { params }: { params: Promise<{ sessionId: string }> },
 ) {
   try {
-    const { sessionId } = params;
+    const { sessionId } = await params;
     const body = await req.json();
     const { message } = body;
 
     if (!message) {
       return NextResponse.json(
         { error: "Message is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -32,7 +32,7 @@ export async function POST(
           Authorization: authHeader || "",
         },
         body: JSON.stringify({ message }),
-      }
+      },
     );
 
     if (!response.ok) {
@@ -46,7 +46,7 @@ export async function POST(
             error.details ||
             "Failed to send message",
         },
-        { status: response.status }
+        { status: response.status },
       );
     }
 
@@ -57,7 +57,7 @@ export async function POST(
     console.error("Error sending message:", error);
     return NextResponse.json(
       { error: "Failed to send message" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

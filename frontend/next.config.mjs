@@ -8,13 +8,10 @@ const nextConfig = {
   },
 
   experimental: {
-    appDir: true,
-    suppressHydrationWarning: true,
-    skipTypeChecking: true,
-    skipMiddlewareUrlNormalize: true,
     missingSuspenseWithCSRBailout: false,
   },
 
+  skipMiddlewareUrlNormalize: true,
   reactStrictMode: false,
 
   // Disable image optimization warnings

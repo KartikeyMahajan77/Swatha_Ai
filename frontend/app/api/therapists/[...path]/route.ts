@@ -22,14 +22,16 @@ async function proxyRequest(
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  { params }: { params: Promise<{ path: string[] }> },
 ) {
-  return proxyRequest(req, params.path, "GET");
+  const { path } = await params;
+  return proxyRequest(req, path, "GET");
 }
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { path: string[] } },
+  { params }: { params: Promise<{ path: string[] }> },
 ) {
-  return proxyRequest(req, params.path, "POST");
+  const { path } = await params;
+  return proxyRequest(req, path, "POST");
 }

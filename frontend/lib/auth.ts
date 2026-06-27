@@ -39,13 +39,12 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
-          const appBaseUrl =
-            process.env.NEXTAUTH_URL ||
-            (process.env.VERCEL_URL
-              ? `https://${process.env.VERCEL_URL}`
-              : "http://localhost:3000");
+          const backendUrl =
+            process.env.BACKEND_API_URL ||
+            process.env.NEXT_PUBLIC_BACKEND_API_URL ||
+            "http://localhost:3001";
 
-          const response = await fetch(`${appBaseUrl}/api/auth/login`, {
+          const response = await fetch(`${backendUrl}/auth/login`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
